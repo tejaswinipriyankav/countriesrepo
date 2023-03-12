@@ -7,10 +7,11 @@ export default function Countries() {
     const [search, setsearch] = useState("");
     const [country, setcountry] = useState();
     const [countrySelected, setCountrySelected] = useState(false);
-    const [continents, setContinents] = useState('select the country');
+    const [continents, setContinents] = useState('select the continent');
     const [image, setImage]= useState(true);
+
     useEffect(() => {
-        if (continents !== "select the country") {
+        if (continents !== "select the continent") {
             axios.get(`https://restcountries.com/v2/region/${continents}`)
                 .then(response => setData(response.data))
         }
@@ -19,7 +20,10 @@ export default function Countries() {
     const test = async (event) => {
         setContinents(event.target.value);
         setCountrySelected(false);
-        if(event.target.value === "select the country"){
+        if(event.target.value === "select the continent") {
+            // const filteredData = APIData.filter((item) => {
+            //     return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+            // })
             setImage(true);
         }
         else{
@@ -31,6 +35,7 @@ export default function Countries() {
         // console.log(event.target.value);
         setsearch(event.target.value);
     }
+
     function onclickHandler() {
         setcountry(search);
         // console.log(search);
@@ -47,7 +52,7 @@ export default function Countries() {
                 <ul className="nav justify-content-center">
                     <select 
                     value={continents} onChange={test} className="select">
-                        <option >select the country</option>
+                        <option >select the continent</option>
                         <option >asia</option>
                         <option >africa</option>
                         <option >europe</option>
@@ -60,7 +65,7 @@ export default function Countries() {
                         value={search}
                         onChange={onchangeHandler}
                     />
-                    <button type="submit" onClick={onclickHandler} className="search">Search</button>
+                    <button type="submit" onClick={onclickHandler} className="search" >Search</button>
                 </ul>
                 {image && <img className="homeimg" alt="description" src={img} ></img>}
             </div>
@@ -68,7 +73,7 @@ export default function Countries() {
             <div>
 
                 {
-                    continents !== "select the country" ?
+                    continents !== "select the continent" ?
                         <table>
                             <thead>
                                 <tr>
@@ -83,8 +88,10 @@ export default function Countries() {
                                     (countrySelected ? data && data.map((item, index) => {
                                         if (item.name === country) {
                                             return (
+                                                
+                                                
 
-                                                <tr>
+                                                <tr key={index}>
                                                     <td>{item.name}</td>
                                                     <td>{item.capital}</td>
                                                     <td>{item.population}</td>
