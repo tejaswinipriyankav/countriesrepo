@@ -1,14 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import img from "./home.jpeg";
+import {connect} from "react-redux";
 
-export default function Countries() {
-    const [data, setData] = useState([]);
-    const [search, setsearch] = useState("");
+const mapStateToProps = state => ({
+    country: state.country.data,
+    });
+
+function Countries(props) {
+    const [data, setData] = useState([]);                   
+    const [search, setsearch] = useState('');
     const [country, setcountry] = useState();
     const [countrySelected, setCountrySelected] = useState(false);
     const [continents, setContinents] = useState('select the continent');
-    const [image, setImage]= useState(true);
+    const [image, setImage] = useState(true);
 
     useEffect(() => {
         if (continents !== "select the continent") {
@@ -20,27 +25,21 @@ export default function Countries() {
     const test = async (event) => {
         setContinents(event.target.value);
         setCountrySelected(false);
-        if(event.target.value === "select the continent") {
+        if (event.target.value === "select the continent") {
             // const filteredData = APIData.filter((item) => {
             //     return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
             // })
             setImage(true);
         }
-        else{
+        else {
             setImage(false);
         }
     }
 
-    function onchangeHandler(event) {
-        // console.log(event.target.value);
-        setsearch(event.target.value);
-    }
 
     function onclickHandler() {
         setcountry(search);
-        // console.log(search);
         setCountrySelected(true);
-        setsearch("");
     }
 
 
@@ -48,27 +47,27 @@ export default function Countries() {
 
         <div >
             <div>
-            <div className="dropbtn">
-                <ul className="nav justify-content-center">
-                    <select 
-                    value={continents} onChange={test} className="select">
-                        <option >select the continent</option>
-                        <option >asia</option>
-                        <option >africa</option>
-                        <option >europe</option>
-                        <option>americas</option>
-                    </select>
-                    
-                    <input className="searchCountry"
-                        type="text"
-                        placeholder="Search Country"
-                        value={search}
-                        onChange={onchangeHandler}
-                    />
-                    <button type="submit" onClick={onclickHandler} className="search" >Search</button>
-                </ul>
-                {image && <img className="homeimg" alt="description" src={img} ></img>}
-            </div>
+                <div className="dropbtn">
+                    <ul className="nav justify-content-center">
+                        <select
+                            value={continents} onChange={test} className="select">
+                            <option >select the continent</option>
+                            <option >asia</option>
+                            <option >africa</option>
+                            <option >europe</option>
+                            <option>americas</option>
+                        </select>
+
+                        <input className="searchCountry"
+                            type="text"
+                            placeholder="Search Country"
+                            value={search}
+                            onChange={(onchangeHandler) => setsearch(onchangeHandler.target.value)}
+                        />
+                        <button type="submit" onClick={onclickHandler} className="search" >Search</button>
+                    </ul>
+                    {image && <img className="homeimg" alt="description" src={img} ></img>}
+                </div>
             </div>
             <div>
 
@@ -86,10 +85,12 @@ export default function Countries() {
                             <tbody>
                                 {
                                     (countrySelected ? data && data.map((item, index) => {
+
+
                                         if (item.name === country) {
                                             return (
-                                                
-                                                
+
+
 
                                                 <tr key={index}>
                                                     <td>{item.name}</td>
@@ -107,18 +108,24 @@ export default function Countries() {
                                     })
                                         :
 
-                                        data && data.map((item, index) => {
-
-                                            return (
-                                                <tr key={index} >
-                                                    <td >{item.name}</td>
-                                                    <td >{item.capital}</td>
-                                                    <td >{item.population}</td>
-                                                    <td><img src={item.flag} alt="Hello" width="100px" /></td>
-                                                </tr>
-                                            )
-
+                                        data && data.filter((item) => {
+                                            return item.name.toLowerCase().includes(search.toLowerCase())
+                                        }).length !== 0 ? data && data.filter((item) => {
+                                            return item.name.toLowerCase().includes(search.toLowerCase())
                                         })
+                                            .map((item, index) => {
+
+                                                return (
+                                                    <tr key={index} >
+                                                        <td >{item.name}</td>
+                                                        <td >{item.capital}</td>
+                                                        <td >{item.population}</td>
+                                                        <td><img src={item.flag} alt="Hello" width="100px" /></td>
+                                                    </tr>
+                                                )
+
+                                            }) :
+                                            <p>Country Not found!</p>
 
 
 
@@ -142,4 +149,5 @@ export default function Countries() {
         </div>
     );
 }
+export default connect(mapStateToProps)(Countries);
 

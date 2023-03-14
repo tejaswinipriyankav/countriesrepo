@@ -68,35 +68,56 @@ th, td {
   position: relative;
   display: inline-block;
   background-color: #ffffff;
-  border: double #000709;
+  border: normal #0e100e7b;
+ 
 }
 
 .search{
   margin-right: 30px;
   position: relative;
+  padding: 10px;
+  font-size: small;
   display: inline-block;
   background-color: #ffffff;
-  border: double #000709;
+  outline: 2px  rgb(16, 16, 16); border-radius: 1rem;
+  border: normal #0e100e7b;
+}
+
+.search:hover{
+  transition:0.5s;
+  box-shadow: 1px 1px 1px 1px rgba(185, 180, 180);
 }
 
 .searchCountry{
   margin-right: 30px;
+  padding: 10px;
+  font-size: small;
   position: relative;
   display: inline-block;
   background-color: #ffffff;
-  border: double #000709;
+  outline: px  rgb(16, 16, 16); border-radius: 1rem;
+  border: normal #000709;
 }
-/* .dropbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-} */
 
-/* .dropdown {
-  position: relative;
-  display: inline-block;
-} */
+.searchCountry:hover{
+  transition:0.5s;
+  box-shadow: 1px 1px 1px 1px rgba(185, 180, 180);
+}
+
+select{
+  background-color: #f8fbf8;
+  color: black;
+  padding: 10px;
+  font-size: small;
+  outline: 2px  rgb(16, 16, 16); border-radius: 1rem;
+
+ }
+ select:hover{
+ 
+  transition:0.5s;
+  box-shadow: 1px 1px 1px 1px rgba(185, 180, 180); 
+ }
+ 
+
+
 
